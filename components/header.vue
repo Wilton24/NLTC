@@ -17,7 +17,7 @@
           <NuxtLink to="/logout">Log Out</NuxtLink>
           <p>Dark mode</p>
         </div>
-        
+        <!-- sample change -->
 
       </header>   
   </div>
