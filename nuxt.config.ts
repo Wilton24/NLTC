@@ -2,8 +2,23 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  modules: [
+  modules: [[
     '@pinia/nuxt',
+    {
+      autoImports: ['defineStore', 'acceptHMRUpdate']
+    }],
+
     '@nuxtjs/tailwindcss'
   ],
+  tailwindcss: {
+    config: {
+      theme: {
+        extend: {
+        },
+      },
+      plugins: [
+        require('daisyui'),
+      ],
+    },
+  },
 })

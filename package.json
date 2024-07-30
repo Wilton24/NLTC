@@ -10,12 +10,18 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "@pinia/nuxt": "^0.5.1",
+    "axios": "^1.7.2",
+    "gsap": "^3.12.5",
     "nuxt": "^3.12.3",
     "pinia": "^2.1.7",
     "vue": "^3.4.32"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.12.1"
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "daisyui": "^4.12.10",
+    "vite-plugin-vuetify": "^2.0.3",
+    "vuetify": "^3.6.13"
   }
 }

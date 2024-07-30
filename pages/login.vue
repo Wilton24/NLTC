@@ -1,14 +1,14 @@
 <template>
-  <div class="login bg-black">
+  <div class="login bg-[#202020] text-white">
     <h2>Login</h2>
     <form @submit.prevent="handleSubmit">
       <div>
         <label for="username" class="text-3xl">Username</label>
-        <input type="text" v-model="state.username" id="username" required />
+        <input class="text-black" type="text" v-model="authStore.username" id="username" required />
       </div>
       <div>
         <label for="password">Password</label>
-        <input type="password" v-model="state.password" id="password" required />
+        <input class="text-black" type="password" v-model="authStore.password" id="password" required />
       </div>
       <button type="submit" class="text-3xl">Login</button>
       <label class="register" for="register">Register</label>
@@ -17,16 +17,16 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import {useAuthStore} from '../store/auth.store';
 
-const state = reactive({
-  username: '' as string,
-  password: '' as string
+const authStore = useAuthStore();
+
+definePageMeta({
+  layout: false
 })
 
 const handleSubmit = () => {
-  console.log('Username:', state.username);
-  console.log('Password:', state.password);
+  authStore.authenticate();
 };
 </script>
 

@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import Footer from '~/components/Footer.vue';
+import axios from 'axios';
+
+onMounted(() => {
+        axios.get('http://localhost:5000').then((res) => {
+            console.log(res.data)
+        })
+    })
 </script>
 
 <template>

@@ -4,11 +4,12 @@
 
 
 <template>
-    <div class="footer bg-[#242424] text-white px-16 py-3 uppercase">
+    <div class="footer bg-[#242424] text-white px-16 py-3 uppercase mt-40">
         <!-- TOP SECTIOn -->
-        <section class="flex justify-between border-b border-b-1 border-white pb-7">
+        <section class="flex justify-between items-center border-b border-b-1 border-white pb-7 w-full">
+            
             <div class="flex-col">
-                <p><nuxt-link to="players">LOGO</nuxt-link></p>
+                <p><nuxt-link to="/homepage">LOGO</nuxt-link></p>
                 <p><nuxt-link to="players">Logo meister</nuxt-link></p>
             </div>
 
