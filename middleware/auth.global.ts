@@ -2,7 +2,7 @@ import { useAuthStore } from "~/store/auth.store";
 
 const publicRoutes = [
   '/login', 
-  '/register', 
+  '/registration', 
   '/forgot-password'
 ];
 
