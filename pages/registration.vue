@@ -9,7 +9,7 @@
           id="name"
           type="text"
           placeholder="Enter your name"
-          class="pl-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+          class="pl-2 mt-1 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
           required
           name="name"
         />
@@ -22,7 +22,7 @@
           id="email"
           type="email"
           placeholder="Enter your email"
-          class="pl-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+          class="pl-2 mt-1 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
           required
           name="email"
         />
@@ -35,7 +35,7 @@
           id="password"
           type="password"
           placeholder="Enter your password"
-          class="pl-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+          class="pl-2 mt-1 block py-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
           required
           name="password"
         />
@@ -48,15 +48,21 @@
           id="confirmPassword"
           type="password"
           placeholder="Confirm your password"
-          class="pl-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+          class="pl-2 mt-1 block py-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
           required
           name="confirmPassword"
         />
       </div>
 
-      <button type="submit" class="bg-[#3f42ff] px-5 py-2 rounded-lg text-2xl hover:bg-[#6568ff] text-white">
-        Register
-      </button>
+      <div class="btn-container flex items-center justify-between px-4">
+        <button type="submit" class="bg-[#3f42ff] px-5 py-2 rounded-lg text-2xl hover:bg-[#6568ff] text-white">
+          Register
+        </button>
+
+        <button @click="$router.go(-1)" class="bg-[#5f5f5f] px-5 py-2 rounded-lg text-2xl hover:bg-[#868686] text-white">
+          Back
+        </button>
+      </div>
 
       <p v-if="errorMessage" class="text-red-500 text-sm">{{ errorMessage }}</p>
     </form>

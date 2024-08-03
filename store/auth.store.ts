@@ -1,23 +1,29 @@
+import axios from "axios";
+
+const baseURL = axios.create({
+  baseURL: process.env.BACKEND_URL,
+})
+
 export const useAuthStore = defineStore('authStore', {
   state: () => ({
-    username: '' as string,
+    email: '' as string,
     password: '' as string,
     name: 'John Doe' as string,
     isAuthenticated: false as boolean,
   }),
   actions: {
-    logAdmin(){
-      console.log(`Username: ${this.username}, Password: ${this.password}, Name: ${this.name}`);
+    loginUser(){
+      console.log(this.email, this.password);
     },
     saveToLocalStorage(){
       const authCred = {
-        username: this.username,
+        email: this.email,
         password: this.password
       };
       localStorage.setItem('authCredentials', JSON.stringify(authCred));
     },
     authenticate(){
-      if(this.username === 'admin' && this.password === 'pass123'){
+      if(this.email === 'admin' && this.password === 'pass123'){
         this.isAuthenticated = true;
         this.saveToLocalStorage();
       }else{
