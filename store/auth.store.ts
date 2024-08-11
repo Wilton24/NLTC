@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const baseURL = axios.create({
-  baseURL: process.env.BACKEND_URL,
-})
+import { baseURL } from "~/utils/apiClient";
 
 export const useAuthStore = defineStore('authStore', {
   state: () => ({
@@ -10,10 +6,23 @@ export const useAuthStore = defineStore('authStore', {
     password: '' as string,
     name: 'John Doe' as string,
     isAuthenticated: false as boolean,
+    emailError: '' as string,
+    passwordError: '' as string
   }),
   actions: {
     loginUser(){
-      console.log(this.email, this.password);
+      // baseURL.post();
+    },
+    validate(){
+      // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      // if(!emailRegex.test(this.email)){
+      //   this.emailError = 'Please enter a valid email address';
+      // } else{
+      //   return false;
+      // };      
+    },
+    regiserUser(){
+
     },
     saveToLocalStorage(){
       const authCred = {

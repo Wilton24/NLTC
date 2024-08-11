@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md mt-20">
+  <div class="max-w-md mx-auto p-4 bg-white rounded-lg shadow-xl mt-20">
     <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
     <form @submit.prevent="handleSubmit" class="space-y-4">
       <div>
@@ -82,7 +82,7 @@ const registrationStore = useRegistrationStore();
 
 const errorMessage = ref<string>('')
 
-function handleSubmit() {
+function handleSubmit(){
   const formData: IRegistrationData ={
     name: registrationStore.name,
     email: registrationStore.email,
@@ -91,8 +91,8 @@ function handleSubmit() {
   } 
   registrationStore.registerUser(formData);
 
-  errorMessage.value = '' // Clear any previous error messages
-
+  errorMessage.value = ''
+  registrationStore.clearForm();
 }
 </script>
 
