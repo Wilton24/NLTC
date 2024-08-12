@@ -40,9 +40,6 @@ const validationSchema = toTypedSchema(schema);
   };
 
   const login = async ()=>{
-    // if(authStore.validate()){
-    //   console.log(userData)
-    // }
     
   }
 

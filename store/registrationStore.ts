@@ -1,4 +1,5 @@
-import { baseURL } from "~/utils/apiClient";
+import axios from "axios";
+import apiClient from "../utils/apiClient";
 
 export interface IRegistrationData {
   email: string;
@@ -16,8 +17,9 @@ export const useRegistrationStore = defineStore("registrationStore", {
   }),
   actions: {
     async registerUser(formData: IRegistrationData){
-      await baseURL.post('/register', formData);      
-      console.log(`User registered: ${JSON.stringify(formData)}`);
+     const data = await apiClient.post('/register', formData)    
+     
+      console.log(`User registered: ${data}`);
     },
     clearForm(){
       this.email = '';

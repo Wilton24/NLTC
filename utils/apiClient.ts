@@ -1,5 +1,9 @@
-import axios from "axios"
+import axios from 'axios';
 
-export const baseURL = axios.create({
-  baseURL: process.env.BACKEND_URL,
-})
+const BACKEND_URL = process.env.VITE_API_URL || 'http://localhost:5000';
+
+const apiClient = axios.create({
+  baseURL: BACKEND_URL,
+});
+
+export default apiClient;

@@ -92,7 +92,7 @@ function handleSubmit(){
   registrationStore.registerUser(formData);
 
   errorMessage.value = ''
-  registrationStore.clearForm();
+  
 }
 </script>
 
