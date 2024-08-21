@@ -1,4 +1,5 @@
-import { baseURL } from "~/utils/apiClient";
+import type { IUserData } from "~/types/interfaces";
+import apiClient from "../utils/apiClient";
 
 export const useAuthStore = defineStore('authStore', {
   state: () => ({
@@ -10,8 +11,15 @@ export const useAuthStore = defineStore('authStore', {
     passwordError: '' as string
   }),
   actions: {
-    loginUser(){
-      // baseURL.post();
+    async loginUser(){    
+      const userData: IUserData = {
+        email: this.email,
+        password: this.password
+      };
+
+      console.log(`Checking user: ${userData.email} with password: ${userData.password}`);      
+      const response = await apiClient.post('/login', userData)
+      console.log(response.headers);
     },
     validate(){
       // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

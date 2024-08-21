@@ -3,6 +3,7 @@ import {useAuthStore} from '../store/auth.store';
 import { useForm,  useField } from 'vee-validate';
 import * as z from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
+import type { IUserData } from '~/types/interfaces';
 
 definePageMeta({
   layout: false
@@ -34,13 +35,13 @@ const validationSchema = toTypedSchema(schema);
 //   }
 // });
 
-  const userData: User = {
+  const userData: IUserData = {
     email: authStore.email,
     password: authStore.password
   };
 
   const login = async ()=>{
-    
+    authStore.loginUser();
   }
 
 </script>
