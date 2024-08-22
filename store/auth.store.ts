@@ -12,14 +12,14 @@ export const useAuthStore = defineStore('authStore', {
   }),
   actions: {
     async loginUser(){    
-      const userData: IUserData = {
-        email: this.email,
-        password: this.password
+      const response = await apiClient.post('/login', {email: this.email, password: this.password});
+      const accessToken = response.data.accessToken;
+      if(accessToken){
+        this.isAuthenticated = true;
+        this.saveToLocalStorage(accessToken);
+      } else{
+        this.isAuthenticated = false;
       };
-
-      console.log(`Checking user: ${userData.email} with password: ${userData.password}`);      
-      const response = await apiClient.post('/login', userData)
-      console.log(response.headers);
     },
     validate(){
       // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -29,24 +29,13 @@ export const useAuthStore = defineStore('authStore', {
       //   return false;
       // };      
     },
+    saveToLocalStorage: (token: string): void => {
+      localStorage.setItem('accessToken', token);
+    },
     regiserUser(){
 
     },
-    saveToLocalStorage(){
-      const authCred = {
-        email: this.email,
-        password: this.password
-      };
-      localStorage.setItem('authCredentials', JSON.stringify(authCred));
-    },
-    authenticate(){
-      if(this.email === 'admin' && this.password === 'pass123'){
-        this.isAuthenticated = true;
-        this.saveToLocalStorage();
-      }else{
-        this.isAuthenticated = false;
-      }
-    },
+
   },
   
   getters:{

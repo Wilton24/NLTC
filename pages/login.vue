@@ -5,6 +5,9 @@ import * as z from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
 import type { IUserData } from '~/types/interfaces';
 
+
+const router = useRouter();
+
 definePageMeta({
   layout: false
 });
@@ -42,6 +45,7 @@ const validationSchema = toTypedSchema(schema);
 
   const login = async ()=>{
     authStore.loginUser();
+    router.push('/homepage');
   }
 
 </script>
