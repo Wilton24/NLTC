@@ -10,11 +10,20 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const { $pinia } = useNuxtApp();
   const authStore = useAuthStore($pinia);
 
+  const token = useCookie('accessToken');
+
+  if (token.value) {
+    authStore.isAuthenticated = true;
+  } else {
+    authStore.isAuthenticated = false;
+  }
   if (authStore.isAuthenticated) {
     return;
   }
 
-  if (!publicRoutes.includes(to.path)) {
-    return navigateTo('/login');
+  if (publicRoutes.includes(to.path)) {
+    return;
   }
+
+  return navigateTo('/login');
 });

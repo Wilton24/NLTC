@@ -13,13 +13,25 @@ export const useAuthStore = defineStore('authStore', {
   actions: {
     async loginUser(){    
       const response = await apiClient.post('/login', {email: this.email, password: this.password});
-      const accessToken = response.data.accessToken;
-      if(accessToken){
-        this.isAuthenticated = true;
-        this.saveToLocalStorage(accessToken);
-      } else{
-        this.isAuthenticated = false;
-      };
+      const accessToken = response.data.accessToken;      
+
+      try{
+        if(accessToken){
+          const token = useCookie('accessToken');
+          token.value = accessToken;
+        } else{
+          return null;
+        };
+      } catch(error){
+        console.log(response.data.message);
+      }
+
+    },
+    logout(){
+      // localStorage.removeItem('accessToken');
+      // this.isAuthenticated = false;
+      const token = useCookie('accessToken');
+      token.value = '';
     },
     validate(){
       // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
