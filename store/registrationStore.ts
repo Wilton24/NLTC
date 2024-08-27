@@ -17,6 +17,8 @@ export const useRegistrationStore = defineStore("registrationStore", {
   }),
   actions: {
     async registerUser(formData: IRegistrationData){
+
+      
      const data = await apiClient.post('/register', formData)    
      
       console.log(`User registered: ${data}`);

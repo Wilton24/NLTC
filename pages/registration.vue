@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-md mx-auto p-4 bg-white rounded-lg shadow-xl mt-20">
     <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
-    <form @submit.prevent="handleSubmit" class="space-y-4">
+    <form @submit="onSubmit" class="space-y-4" :validationSchema="schema">
       <div>
         <label for="name" class=" block text-sm font-medium text-gray-700">Name</label>
         <input
@@ -14,7 +14,11 @@
           name="name"
         />
       </div>
-      
+
+      <div class="pl-2 block w-full">
+        <p class="text-red-500 font-bold"> {{ errors.name }}</p>
+      </div>
+
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
         <input
@@ -26,6 +30,10 @@
           required
           name="email"
         />
+      </div>
+
+      <div class="pl-2 block w-full">
+        <p class="text-red-500 font-bold"> {{ errors.email }}</p>
       </div>
       
       <div>
@@ -40,6 +48,10 @@
           name="password"
         />
       </div>
+
+      <span class="pl-2 block w-full">
+        <p class="text-red-500 font-bold"> {{ errors.password }}</p>
+      </span>
       
       <div>
         <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
@@ -52,6 +64,10 @@
           required
           name="confirmPassword"
         />
+      </div>
+
+      <div class="pl-2 block w-full">
+        <p class="text-red-500 font-bold"> {{ errors.confirmPassword }}</p>
       </div>
 
       <div class="btn-container flex items-center justify-between px-4">
@@ -72,30 +88,60 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRegistrationStore, type IRegistrationData } from '~/store/registrationStore';
+import { useForm } from 'vee-validate';
+import * as z from 'zod';
+import { toTypedSchema } from '@vee-validate/zod';
 
 definePageMeta({
   layout: false
-})
+});
+
+const schema = z.object({
+  name: z.string().min(1, 'Name is required').max(50),
+  email: z.string().min(2, 'Email is required').max(50).email(),
+  password: z.string().min(1, 'Password is required').max(50),
+  confirmPassword: z.string().min(1, 'Password is required').max(50),
+  }).refine(data => data.password === data.confirmPassword, {
+    path: ['confirmPassword'], 
+    message: "Passwords don't match",
+});
 
 const registrationStore = useRegistrationStore();
+const { meta, handleSubmit, errors, isSubmitting  } = useForm({
+  validationSchema: toTypedSchema(schema),
+});
 
 
-const errorMessage = ref<string>('')
-
-function handleSubmit(){
-  const formData: IRegistrationData ={
-    name: registrationStore.name,
-    email: registrationStore.email,
-    password: registrationStore.password,
-    confirmPassword: registrationStore.confirmPassword
-  } 
-  registrationStore.registerUser(formData);
-
-  errorMessage.value = ''
-  
+function onSuccess(values:any) {
+  alert(JSON.stringify(values, null, 2));
 }
+function onInvalidSubmit({ values, errors, results }:any) {
+  console.log(values); 
+  console.log(errors); 
+  console.log(results); 
+};
+
+
+const onSubmit = handleSubmit(onSuccess, onInvalidSubmit);
+
+
+const errorMessage = ref<string>('');
+
+// function onSubmit(){
+//   const formData: IRegistrationData ={
+//     name: registrationStore.name,
+//     email: registrationStore.email,
+//     password: registrationStore.password,
+//     confirmPassword: registrationStore.confirmPassword
+//   } 
+//   registrationStore.registerUser(formData);
+
+//   errorMessage.value = ''
+// };
+
+
 </script>
 
 <style>
-/* You can add custom styles here if needed */
+
 </style>
