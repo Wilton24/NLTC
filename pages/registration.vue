@@ -6,6 +6,7 @@
         <label for="name" class=" block text-sm font-medium text-gray-700">Name</label>
         <input
           v-model="registrationStore.name"
+          v-bind="name"
           id="name"
           type="text"
           placeholder="Enter your name"
@@ -23,6 +24,7 @@
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
         <input
           v-model="registrationStore.email"
+          v-bind="email"
           id="email"
           type="email"
           placeholder="Enter your email"
@@ -33,13 +35,14 @@
       </div>
 
       <div class="pl-2 block w-full">
-        <p class="text-red-500 font-bold"> {{ errors.email }}</p>
+        <p v-if="errors.email" class="text-red-500 font-bold"> {{ errors.email }}</p>
       </div>
       
       <div>
         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
         <input
           v-model="registrationStore.password"
+          v-bind="password"
           id="password"
           type="password"
           placeholder="Enter your password"
@@ -57,6 +60,7 @@
         <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
         <input
           v-model="registrationStore.confirmPassword"
+          v-bind="confirmPassword"
           id="confirmPassword"
           type="password"
           placeholder="Confirm your password"
@@ -85,6 +89,8 @@
   </div>
 </template>
 
+
+
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRegistrationStore, type IRegistrationData } from '~/store/registrationStore';
@@ -94,6 +100,10 @@ import { toTypedSchema } from '@vee-validate/zod';
 
 definePageMeta({
   layout: false
+});
+
+const state = reactive({
+  error: '',
 });
 
 const schema = z.object({
@@ -107,23 +117,20 @@ const schema = z.object({
 });
 
 const registrationStore = useRegistrationStore();
-const { meta, handleSubmit, errors, isSubmitting  } = useForm({
+
+const { values, handleSubmit, errors, isSubmitting, defineField  } = useForm({
   validationSchema: toTypedSchema(schema),
+  validateOnMount: false,
 });
 
+const name = defineField('name');
+const email = defineField('email');
+const password = defineField('password');
+const confirmPassword = defineField('confirmPassword');
 
-function onSuccess(values:any) {
-  alert(JSON.stringify(values, null, 2));
-}
-function onInvalidSubmit({ values, errors, results }:any) {
-  console.log(values); 
-  console.log(errors); 
-  console.log(results); 
-};
-
-
-const onSubmit = handleSubmit(onSuccess, onInvalidSubmit);
-
+const onSubmit = handleSubmit((values: any) => {
+  console.log(`Values: ${values}`);
+});
 
 const errorMessage = ref<string>('');
 
@@ -138,6 +145,8 @@ const errorMessage = ref<string>('');
 
 //   errorMessage.value = ''
 // };
+
+
 
 
 </script>
