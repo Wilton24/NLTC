@@ -10,8 +10,7 @@
           id="name"
           type="text"
           placeholder="Enter your name"
-          class="pl-2 mt-1 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-          required
+          class="pl-2 mt-1 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"          
           name="name"
         />
       </div>
@@ -28,8 +27,7 @@
           id="email"
           type="email"
           placeholder="Enter your email"
-          class="pl-2 mt-1 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-          required
+          class="pl-2 mt-1 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"          
           name="email"
         />
       </div>
@@ -46,8 +44,7 @@
           id="password"
           type="password"
           placeholder="Enter your password"
-          class="pl-2 mt-1 block py-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-          required
+          class="pl-2 mt-1 block py-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"          
           name="password"
         />
       </div>
@@ -64,8 +61,7 @@
           id="confirmPassword"
           type="password"
           placeholder="Confirm your password"
-          class="pl-2 mt-1 block py-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-          required
+          class="pl-2 mt-1 block py-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"          
           name="confirmPassword"
         />
       </div>
@@ -108,9 +104,9 @@ const state = reactive({
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required').max(50),
-  email: z.string().min(2, 'Email is required').max(50).email(),
+  email: z.string().min(2, 'Please input a valid email').max(50).email(),
   password: z.string().min(1, 'Password is required').max(50),
-  confirmPassword: z.string().min(1, 'Password is required').max(50),
+  confirmPassword: z.string().min(1, 'This field is required').max(50),
   }).refine(data => data.password === data.confirmPassword, {
     path: ['confirmPassword'], 
     message: "Passwords don't match",
@@ -118,7 +114,7 @@ const schema = z.object({
 
 const registrationStore = useRegistrationStore();
 
-const { values, handleSubmit, errors, isSubmitting, defineField  } = useForm({
+const {  handleSubmit, errors, isSubmitting, validate, defineField  } = useForm({
   validationSchema: toTypedSchema(schema),
   validateOnMount: false,
 });
@@ -129,7 +125,7 @@ const password = defineField('password');
 const confirmPassword = defineField('confirmPassword');
 
 const onSubmit = handleSubmit((values: any) => {
-  console.log(`Values: ${values}`);
+  console.log('Button working')
 });
 
 const errorMessage = ref<string>('');

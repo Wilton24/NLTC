@@ -3,7 +3,8 @@ import { useAuthStore } from "~/store/auth.store";
 const publicRoutes = [
   '/login', 
   '/registration', 
-  '/forgot-password'
+  '/forgot-password',
+  '/vee'
 ];
 
 export default defineNuxtRouteMiddleware((to, from) => {
