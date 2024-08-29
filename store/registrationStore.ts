@@ -6,7 +6,7 @@ export interface IRegistrationData {
   password: string;
   name: string;
   confirmPassword: string;
-}
+};
 
 export const useRegistrationStore = defineStore("registrationStore", {
   state: () => ({
@@ -16,10 +16,8 @@ export const useRegistrationStore = defineStore("registrationStore", {
     confirmPassword: "" as string
   }),
   actions: {
-    async registerUser(formData: IRegistrationData){
-     const data = await apiClient.post('/register', formData)    
-     
-      console.log(`User registered: ${data}`);
+    async registerUser(formData: IRegistrationData){      
+     const data = await apiClient.post('/register', formData);         
     },
     clearForm(){
       this.email = '';

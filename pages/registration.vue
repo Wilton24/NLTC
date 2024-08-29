@@ -1,57 +1,69 @@
 <template>
   <div class="max-w-md mx-auto p-4 bg-white rounded-lg shadow-xl mt-20">
     <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
-    <form @submit.prevent="handleSubmit" class="space-y-4">
+    <Form @submit="onSubmit" class="space-y-4" :validationSchema="schema">
       <div>
         <label for="name" class=" block text-sm font-medium text-gray-700">Name</label>
-        <input
+        <Field
           v-model="registrationStore.name"
           id="name"
           type="text"
           placeholder="Enter your name"
-          class="pl-2 mt-1 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-          required
+          class="pl-2 mt-1 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"          
           name="name"
         />
       </div>
-      
+
+      <div class="pl-2 block w-full">
+        <ErrorMessage class="text-red-500 font-bold" name="name"/> 
+      </div>
+
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input
+        <Field
           v-model="registrationStore.email"
           id="email"
           type="email"
           placeholder="Enter your email"
-          class="pl-2 mt-1 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-          required
+          class="pl-2 mt-1 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"          
           name="email"
         />
+      </div>
+
+      <div class="pl-2 block w-full">
+        <ErrorMessage class="text-red-500 font-bold" name="email"/> 
       </div>
       
       <div>
         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-        <input
+        <Field
           v-model="registrationStore.password"
           id="password"
           type="password"
           placeholder="Enter your password"
-          class="pl-2 mt-1 block py-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-          required
+          class="pl-2 mt-1 block py-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"          
           name="password"
         />
       </div>
+
+      <span class="pl-2 block w-full">
+        <ErrorMessage class="text-red-500 font-bold" name="password"/> 
+      </span>
       
       <div>
         <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-        <input
+        <Field
           v-model="registrationStore.confirmPassword"
           id="confirmPassword"
           type="password"
           placeholder="Confirm your password"
-          class="pl-2 mt-1 block py-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-          required
+          class="pl-2 mt-1 block py-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"          
           name="confirmPassword"
         />
+      </div>
+
+      <div class="pl-2 block w-full">
+        <ErrorMessage class="text-red-500 font-bold" name="confirmPassword"/> 
       </div>
 
       <div class="btn-container flex items-center justify-between px-4">
@@ -64,38 +76,59 @@
         </button>
       </div>
 
-      <p v-if="errorMessage" class="text-red-500 text-sm">{{ errorMessage }}</p>
-    </form>
+      <!-- <p class="text-red-500 text-sm">{{ errorMessage }}</p> -->
+    </Form>
   </div>
 </template>
 
+
+
 <script lang="ts" setup>
-import { ref } from 'vue';
 import { useRegistrationStore, type IRegistrationData } from '~/store/registrationStore';
+import * as yup from 'yup';
+import { Form, Field, ErrorMessage } from 'vee-validate';
 
 definePageMeta({
   layout: false
-})
+});
+
+const router = useRouter();
 
 const registrationStore = useRegistrationStore();
 
+const schema = yup.object({
+  name: yup.string().required('Name is required'),
+  email: yup.string().email('Invalid email format').required('Email is required'),
+  password: yup.string().required('Password is required'),
+  confirmPassword: yup.string().required('Confirm password is required').oneOf([yup.ref('password'), 'Passwords must match'], 'Passwords must match'),
+});
 
-const errorMessage = ref<string>('')
-
-function handleSubmit(){
-  const formData: IRegistrationData ={
-    name: registrationStore.name,
-    email: registrationStore.email,
-    password: registrationStore.password,
-    confirmPassword: registrationStore.confirmPassword
-  } 
-  registrationStore.registerUser(formData);
-
-  errorMessage.value = ''
-  
+function onSubmit(values: IRegistrationData | any) {
+  console.log(values);
+  registrationStore.registerUser(values);
+  router.push('/login');
 }
+
+
+
+
+
+// function onSubmit(){
+//   const formData: IRegistrationData ={
+//     name: registrationStore.name,
+//     email: registrationStore.email,
+//     password: registrationStore.password,
+//     confirmPassword: registrationStore.confirmPassword
+//   } 
+//   registrationStore.registerUser(formData);
+
+// };
+
+
+
+
 </script>
 
 <style>
-/* You can add custom styles here if needed */
+
 </style>
