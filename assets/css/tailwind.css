@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Radial progress bar color */
+.progress-color {
+  --tw-text-opacity: 1;
+  /* color: oklch(0.78 0.28 150.31); */
+  color: #00cf00;
+}

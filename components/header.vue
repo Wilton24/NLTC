@@ -14,7 +14,7 @@
         </div>
 
         <div class="right flex gap-3">
-          <NuxtLink to="/logout">Log Out</NuxtLink>
+          <button @click="logout">Log Out</button>
           <p>Dark mode</p>
         </div>
         <!-- sample change -->
@@ -26,6 +26,15 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '~/store/auth.store';
+const router = useRouter();
+const authStore = useAuthStore();
+
+function logout() {
+  router.push('/login');
+  authStore.logout();
+}
+
 
 </script>
 

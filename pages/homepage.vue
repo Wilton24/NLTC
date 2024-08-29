@@ -7,8 +7,8 @@ import Footer from '~/components/Footer.vue';
         <h1>HOME PAGE</h1>
         <p>This is HOME in the face of the earth</p>
         <p>Sample change edit for commit</p>
+        <h2>Cookie Sample</h2>
     </div>
-
     <Footer/>
 </template>
 
