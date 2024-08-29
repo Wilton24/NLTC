@@ -1,12 +1,11 @@
 <template>
   <div class="max-w-md mx-auto p-4 bg-white rounded-lg shadow-xl mt-20">
     <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
-    <form @submit="onSubmit" class="space-y-4" :validationSchema="schema">
+    <Form @submit="onSubmit" class="space-y-4" :validationSchema="schema">
       <div>
         <label for="name" class=" block text-sm font-medium text-gray-700">Name</label>
-        <input
+        <Field
           v-model="registrationStore.name"
-          v-bind="name"
           id="name"
           type="text"
           placeholder="Enter your name"
@@ -16,14 +15,13 @@
       </div>
 
       <div class="pl-2 block w-full">
-        <p class="text-red-500 font-bold"> {{ errors.name }}</p>
+        <ErrorMessage class="text-red-500 font-bold" name="name"/> 
       </div>
 
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input
+        <Field
           v-model="registrationStore.email"
-          v-bind="email"
           id="email"
           type="email"
           placeholder="Enter your email"
@@ -33,14 +31,13 @@
       </div>
 
       <div class="pl-2 block w-full">
-        <p v-if="errors.email" class="text-red-500 font-bold"> {{ errors.email }}</p>
+        <ErrorMessage class="text-red-500 font-bold" name="email"/> 
       </div>
       
       <div>
         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-        <input
+        <Field
           v-model="registrationStore.password"
-          v-bind="password"
           id="password"
           type="password"
           placeholder="Enter your password"
@@ -50,14 +47,13 @@
       </div>
 
       <span class="pl-2 block w-full">
-        <p class="text-red-500 font-bold"> {{ errors.password }}</p>
+        <ErrorMessage class="text-red-500 font-bold" name="password"/> 
       </span>
       
       <div>
         <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-        <input
+        <Field
           v-model="registrationStore.confirmPassword"
-          v-bind="confirmPassword"
           id="confirmPassword"
           type="password"
           placeholder="Confirm your password"
@@ -67,7 +63,7 @@
       </div>
 
       <div class="pl-2 block w-full">
-        <p class="text-red-500 font-bold"> {{ errors.confirmPassword }}</p>
+        <ErrorMessage class="text-red-500 font-bold" name="confirmPassword"/> 
       </div>
 
       <div class="btn-container flex items-center justify-between px-4">
@@ -80,8 +76,8 @@
         </button>
       </div>
 
-      <p v-if="errorMessage" class="text-red-500 text-sm">{{ errorMessage }}</p>
-    </form>
+      <!-- <p class="text-red-500 text-sm">{{ errorMessage }}</p> -->
+    </Form>
   </div>
 </template>
 
@@ -90,45 +86,29 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRegistrationStore, type IRegistrationData } from '~/store/registrationStore';
-import { useForm } from 'vee-validate';
-import * as z from 'zod';
-import { toTypedSchema } from '@vee-validate/zod';
+import * as yup from 'yup';
+import { Form, Field, ErrorMessage } from 'vee-validate';
 
 definePageMeta({
   layout: false
 });
 
-const state = reactive({
-  error: '',
-});
-
-const schema = z.object({
-  name: z.string().min(1, 'Name is required').max(50),
-  email: z.string().min(2, 'Please input a valid email').max(50).email(),
-  password: z.string().min(1, 'Password is required').max(50),
-  confirmPassword: z.string().min(1, 'This field is required').max(50),
-  }).refine(data => data.password === data.confirmPassword, {
-    path: ['confirmPassword'], 
-    message: "Passwords don't match",
-});
-
 const registrationStore = useRegistrationStore();
 
-const {  handleSubmit, errors, isSubmitting, validate, defineField  } = useForm({
-  validationSchema: toTypedSchema(schema),
-  validateOnMount: false,
+const schema = yup.object({
+  name: yup.string().required('Name is required'),
+  email: yup.string().email('Invalid email format').required('Email is required'),
+  password: yup.string().required('Password is required'),
+  confirmPassword: yup.string().required('Confirm password is required').oneOf([yup.ref('password'), 'Passwords must match'], 'Passwords must match'),
 });
 
-const name = defineField('name');
-const email = defineField('email');
-const password = defineField('password');
-const confirmPassword = defineField('confirmPassword');
+function onSubmit(values: any) {
+  alert(JSON.stringify(values, null, 2));
+}
 
-const onSubmit = handleSubmit((values: any) => {
-  console.log('Button working')
-});
 
-const errorMessage = ref<string>('');
+
+
 
 // function onSubmit(){
 //   const formData: IRegistrationData ={

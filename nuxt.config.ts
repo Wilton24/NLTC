@@ -8,7 +8,8 @@ export default defineNuxtConfig({
       autoImports: ['defineStore', 'acceptHMRUpdate']
     }],
 
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    '@vee-validate/nuxt',
   ],
   tailwindcss: {
     config: {
