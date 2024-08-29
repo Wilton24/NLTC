@@ -84,7 +84,6 @@
 
 
 <script lang="ts" setup>
-import { ref } from 'vue';
 import { useRegistrationStore, type IRegistrationData } from '~/store/registrationStore';
 import * as yup from 'yup';
 import { Form, Field, ErrorMessage } from 'vee-validate';
@@ -92,6 +91,8 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 definePageMeta({
   layout: false
 });
+
+const router = useRouter();
 
 const registrationStore = useRegistrationStore();
 
@@ -102,8 +103,10 @@ const schema = yup.object({
   confirmPassword: yup.string().required('Confirm password is required').oneOf([yup.ref('password'), 'Passwords must match'], 'Passwords must match'),
 });
 
-function onSubmit(values: any) {
-  alert(JSON.stringify(values, null, 2));
+function onSubmit(values: IRegistrationData | any) {
+  console.log(values);
+  registrationStore.registerUser(values);
+  router.push('/login');
 }
 
 
@@ -119,7 +122,6 @@ function onSubmit(values: any) {
 //   } 
 //   registrationStore.registerUser(formData);
 
-//   errorMessage.value = ''
 // };
 
 

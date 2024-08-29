@@ -21,7 +21,9 @@ const schema = yup.object({
 });
 function onSubmit(values) {
   // Submit values to API...
-  alert(JSON.stringify(values, null, 2));
+  // alert(JSON.stringify(values, null, 2));
+  console.log('Not working yet...');
+  
 };
 
 
