@@ -1,4 +1,7 @@
 <template>
+  <div v-if="registrationStore.isRegistrationSuccess" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <SuccessModal :message="registrationStore.modalMessage" />
+  </div>
   <div class="max-w-md mx-auto p-4 bg-white rounded-lg shadow-xl mt-20">
     <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
     <Form @submit="onSubmit" class="space-y-4" :validationSchema="schema">
@@ -87,6 +90,8 @@
 import { useRegistrationStore, type IRegistrationData } from '~/store/registrationStore';
 import * as yup from 'yup';
 import { Form, Field, ErrorMessage } from 'vee-validate';
+import SuccessModal from '~/modals/SuccessModal.vue';
+
 
 definePageMeta({
   layout: false
@@ -107,24 +112,7 @@ function onSubmit(values: IRegistrationData | any) {
   console.log(values);
   registrationStore.registerUser(values);
   router.push('/login');
-}
-
-
-
-
-
-// function onSubmit(){
-//   const formData: IRegistrationData ={
-//     name: registrationStore.name,
-//     email: registrationStore.email,
-//     password: registrationStore.password,
-//     confirmPassword: registrationStore.confirmPassword
-//   } 
-//   registrationStore.registerUser(formData);
-
-// };
-
-
+};
 
 
 </script>

@@ -10,6 +10,7 @@ export default defineNuxtConfig({
 
     '@nuxtjs/tailwindcss',
     '@vee-validate/nuxt',
+    'nuxt-icon'
   ],
   tailwindcss: {
     config: {
@@ -22,4 +23,5 @@ export default defineNuxtConfig({
       ],
     },
   },
-})
+});
+

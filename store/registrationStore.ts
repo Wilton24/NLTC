@@ -13,7 +13,9 @@ export const useRegistrationStore = defineStore("registrationStore", {
     email: "" as string,
     password: "" as string,
     name: "" as string,
-    confirmPassword: "" as string
+    confirmPassword: "" as string,
+    isRegistrationSuccess: true as boolean,
+    modalMessage: '' as string
   }),
   actions: {
     async registerUser(formData: IRegistrationData){      
