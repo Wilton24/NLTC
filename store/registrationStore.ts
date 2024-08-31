@@ -13,7 +13,7 @@ export const useRegistrationStore = defineStore("registrationStore", {
     password: "" as string,
     name: "" as string,
     confirmPassword: "" as string,
-    isRegistrationSuccess: true as boolean,
+    isRegistrationSuccess: false as boolean,
     modalMessage: '' as string
   }),
   actions: {
