@@ -8,24 +8,36 @@ export const useAuthStore = defineStore('authStore', {
     name: 'John Doe' as string,
     isAuthenticated: false as boolean,
     emailError: '' as string,
-    passwordError: '' as string
+    passwordError: '' as string,
+    errorMessage: '' as string,
+    errorTimeout: false as boolean
   }),
   actions: {
     async loginUser(userData: IUserData){    
-      const response = await apiClient.post('/login', userData);
-      const accessToken = response.data.accessToken;      
-
       try{
-        if(accessToken){
-          const token = useCookie('accessToken');
-          token.value = accessToken;
-        } else{
-          return null;
+        const response = await apiClient.post('/login', userData);
+        const accessToken = response.data.accessToken;      
+        const router = useRouter();  
+        
+        if(!accessToken){
+          return;
         };
-      } catch(error){
-        console.log(response.data.message);
-      }
 
+        const token = useCookie('accessToken');
+        token.value = accessToken;
+        router.push('/homepage');
+
+      } catch(error: unknown|any){
+        if (error.response && error.response.status === 401) {
+          console.log(error.response.data.message);
+          this.errorMessage = error.response.data.message
+          this.clearErrorMessage();
+        } else if (error.response && error.response.status === 400) {
+          console.error(error.response.data.message);
+          this.errorMessage = error.response.data.message;
+          this.clearErrorMessage();
+        };
+      };
     },
     logout(){
       const token = useCookie('accessToken');
@@ -34,9 +46,16 @@ export const useAuthStore = defineStore('authStore', {
     saveToLocalStorage: (token: string): void => {
       localStorage.setItem('accessToken', token);
     },
-    regiserUser(){
+    clearErrorMessage(){
+      if(!this.errorTimeout){
+        this.errorTimeout = true;
+        const clearErrorTimeOut = setTimeout(() => {
+          this.errorMessage = '';
+          this.errorTimeout = false;
+        },3000);
+      }
 
-    },
+    }
 
   },
   

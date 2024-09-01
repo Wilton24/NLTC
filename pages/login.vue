@@ -24,9 +24,7 @@ onMounted(()=>{
 });
 
   const login = async (values: any | IUserData)=>{
-    console.log(values);
     authStore.loginUser(values);
-    router.push('/homepage');
   };
 
 
@@ -48,8 +46,8 @@ onMounted(()=>{
         <Field class="text-black" type="password" name="password" id="password" placeholder="Enter your password"/>
          <ErrorMessage name ="password"/>
       </div>
+      <h2 class="text-red-500">{{ authStore.errorMessage }}</h2>
       <button type="submit" class="text-3xl">Login</button>
-
       <label class="register p-2 w-3/4 mx-auto bg-green-500 hover:bg-green-400 mt-4 rounded-md text-md font-bold cursor-pointer text-center" for="register">
         <NuxtLink to="/registration">Create New Account</NuxtLink>
       </label>
