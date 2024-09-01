@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import {useAuthStore} from '../store/auth.store';
-import { useForm,  useField } from 'vee-validate';
-import * as z from 'zod';
-import { toTypedSchema } from '@vee-validate/zod';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import * as Yup from 'yup';
 import type { IUserData } from '~/types/interfaces';
 
 
@@ -14,61 +13,47 @@ definePageMeta({
 
 const authStore = useAuthStore();
 
-const submitted = ref(false);
-const schema = z.object({
-  email: z.string().min(1,'Email is required').max(50).email(),
-  password: z.string().min(1,'Password is required').max(50),
+const schema = Yup.object({
+  email: Yup.string().required().email('Please enter a valid email address'),
+  password: Yup.string().required(),
 });
 
+
 onMounted(()=>{
-  authStore.emailError = '';
-  authStore.passwordError = '';
-})
+// 
+});
 
-
-type User = z.infer<typeof schema>
-
-const validationSchema = toTypedSchema(schema);
-
-// const { handleSubmit, values, errors, isSubmitting,validate } = useForm<User>({
-//   validationSchema,
-//   initialValues:{
-//     email: authStore.email,
-//     password: authStore.password
-//   }
-// });
-
-  const userData: IUserData = {
-    email: authStore.email,
-    password: authStore.password
+  const login = async (values: any | IUserData)=>{
+    console.log(values);
+    authStore.loginUser(values);
+    router.push('/homepage');
   };
 
-  const login = async ()=>{
-    authStore.loginUser();
-    router.push('/homepage');
-  }
+
+
 
 </script>
 
 <template>
   <div class="login bg-[#202020] text-white">
     <h2>Login</h2>
-    <form @submit.prevent="login" :validationSchema="schema">
+    <Form @submit="login" :validationSchema="schema">
       <div>
         <label for="email" class="text-3xl">Username</label>
-        <input class="text-black" type="text" v-model="authStore.email" id="email" name="email" placeholder="Enter your email" />
-        <span v-if="authStore.emailError" class="text-red-500">{{ authStore.emailError }}</span>
+        <Field class="text-black" type="text" id="email" name="email" placeholder="Enter your email" />
+         <ErrorMessage name ="email" class="text-red-500 font-bold"/>
       </div>
       <div>
         <label for="password">Password</label>
-        <input class="text-black" type="password" v-model="authStore.password" name="password" id="password" placeholder="Enter your password"/>
-        <span v-if="authStore.passwordError" class="text-red-500">{{ authStore.passwordError }}</span>
+        <Field class="text-black" type="password" name="password" id="password" placeholder="Enter your password"/>
+         <ErrorMessage name ="password"/>
       </div>
       <button type="submit" class="text-3xl">Login</button>
-      <label class="register" for="register">
-        <NuxtLink to="/registration">Register</NuxtLink>
+
+      <label class="register p-2 w-3/4 mx-auto bg-green-500 hover:bg-green-400 mt-4 rounded-md text-md font-bold cursor-pointer text-center" for="register">
+        <NuxtLink to="/registration">Create New Account</NuxtLink>
       </label>
-    </form>
+    </Form>
   </div>
 </template>
 
@@ -97,6 +82,7 @@ const validationSchema = toTypedSchema(schema);
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
+  outline: none;
 }
 .login button {
   width: 100%;
@@ -106,5 +92,8 @@ const validationSchema = toTypedSchema(schema);
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+.login button:hover{
+  background-color: #3496ff;
 }
 </style>

@@ -101,8 +101,6 @@ definePageMeta({
   layout: false
 });
 
-const router = useRouter();
-
 const registrationStore = useRegistrationStore();
 
 const schema = yup.object({
