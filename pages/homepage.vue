@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Footer from '~/components/Footer.vue';
-import { useHomePageStore } from '~/store/homePage.store';
+import { useHomepageStore } from '~/store/homePage.store';
 
-const homepageStore = useHomePageStore();
+const homepageStore = useHomepageStore();
 
 onMounted(async ()=>{
 //    setTimeout(async ()=>{
-//     await homepageStore.getAdminProfile();
+    await homepageStore.getAdminProfile();
 //    }, 3000) 
 });
 
@@ -15,7 +15,7 @@ onMounted(async ()=>{
 
 <template>
     <div class="p-5 bg-slate-100">
-        <h1 class="">Hello {{ homepageStore.name }}</h1>
+        <!-- <h1 class="">Hello {{ homepageStore.name }}</h1> -->
         <h1>HOME PAGE</h1>        
         <p>This is HOME in the face of the earth</p>
         <p>Sample change edit for commit</p>
