@@ -27,9 +27,6 @@ onMounted(()=>{
     authStore.loginUser(values);
   };
 
-
-
-
 </script>
 
 <template>

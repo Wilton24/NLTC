@@ -5,7 +5,7 @@ export const useAuthStore = defineStore('authStore', {
   state: () => ({
     email: '' as string,
     password: '' as string,
-    name: 'John Doe' as string,
+    name: '' as string,
     isAuthenticated: false as boolean,
     emailError: '' as string,
     passwordError: '' as string,
@@ -26,6 +26,7 @@ export const useAuthStore = defineStore('authStore', {
         const token = useCookie('accessToken');
         token.value = accessToken;
         router.push('/homepage');
+        this.name = response.data.user.name;
 
       } catch(error: unknown|any){
         if (error.response && error.response.status === 401) {
