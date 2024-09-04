@@ -26,7 +26,7 @@ export const useAuthStore = defineStore('authStore', {
         const token = useCookie('accessToken');
         token.value = accessToken;
         router.push('/homepage');
-        this.name = response.data.user.name;
+        this.name = response.data.user;
 
       } catch(error: unknown|any){
         if (error.response && error.response.status === 401) {
