@@ -10,7 +10,8 @@ export const useAuthStore = defineStore('authStore', {
     emailError: '' as string,
     passwordError: '' as string,
     errorMessage: '' as string,
-    errorTimeout: false as boolean
+    errorTimeout: false as boolean,
+    authToken: '' as string,
   }),
   actions: {
     async loginUser(userData: IUserData){    

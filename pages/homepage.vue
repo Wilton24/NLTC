@@ -4,10 +4,15 @@ import { useHomepageStore } from '~/store/homePage.store';
 
 const homepageStore = useHomepageStore();
 
+const token = useCookie("accessToken");
+
 onMounted(async ()=>{
-//    setTimeout(async ()=>{
-    await homepageStore.getAdminProfile();
-//    }, 3000) 
+
+    homepageStore.getAdminProfile();
+   setTimeout(async ()=>{
+    // await homepageStore.getAdminProfile();
+   }, 3000);
+
 });
 
 
@@ -20,6 +25,7 @@ onMounted(async ()=>{
         <p>This is HOME in the face of the earth</p>
         <p>Sample change edit for commit</p>
         <h2>Cookie Sample</h2>
+        <button @click="homepageStore.getAdminProfile" class="px-3 py-2 bg-green-400">log users</button>
     </div>
     <Footer/>
 </template>

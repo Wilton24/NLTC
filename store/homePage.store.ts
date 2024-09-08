@@ -1,43 +1,32 @@
-// import apiClient from "../utils/apiClient";
-
-
-// export const useHomePageStore = defineStore('homePageStore', {
-//   state: () => ({
-//     name: '' as string,
-//   }),
-//   getters: {
-    
-//   },
-//   actions: {
-    // async getAdminProfile(){
-    //   try{
-    //     const response = await apiClient.get('/admin/allAdmins');
-    //     // this.name = response.data              
-    //     console.log(response.data)
-    //   } catch(err: Error | any){
-
-    //   }
-    // }
-//   }
-// });
-
 import apiClient from "../utils/apiClient";
+
 
 
 export const useHomepageStore = defineStore("homepageStore", {
   state: () => ({
     name: "" as string,
+    userData: [] as any
   }),
   actions: {
     async getAdminProfile(){
+      const token = useCookie("accessToken");
+      const url = `http://localhost:5000/admin/allAdmins`;
       try{
-        const response = await apiClient.get('/admin/allAdmins');
-        // this.name = response.data              
-        console.log(response.data)
+        const { data, pending, error } = await useFetch(url, {
+          headers: {
+            Authorization: `Bearer ${token.value}`
+          }
+        });
+        this.userData = data.value;
+        console.log(this.userData);
+        
       } catch(err: Error | any){
 
       }
-    }
+    },
+    sayHi(){
+      console.log("hello yea")
+    },
   },
   getters: {
 
