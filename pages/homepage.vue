@@ -7,12 +7,7 @@ const homepageStore = useHomepageStore();
 const token = useCookie("accessToken");
 
 onMounted(async ()=>{
-
-    homepageStore.getAdminProfile();
-   setTimeout(async ()=>{
-    // await homepageStore.getAdminProfile();
-   }, 3000);
-
+    await homepageStore.getAdminProfile();
 });
 
 
@@ -26,6 +21,12 @@ onMounted(async ()=>{
         <p>Sample change edit for commit</p>
         <h2>Cookie Sample</h2>
         <button @click="homepageStore.getAdminProfile" class="px-3 py-2 bg-green-400">log users</button>
+        <div v-if="homepageStore.showUsers && homepageStore.users">
+            <div v-for="(user, index) in homepageStore.users">
+                <p> User name: {{ user.name }}</p>
+                <p> User name: {{ user.email }}</p>
+            </div>
+        </div>
     </div>
     <Footer/>
 </template>

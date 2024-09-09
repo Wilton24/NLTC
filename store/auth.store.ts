@@ -1,6 +1,7 @@
 import type { IUserData } from "~/types/interfaces";
 import apiClient from "../utils/apiClient";
 
+
 export const useAuthStore = defineStore('authStore', {
   state: () => ({
     email: '' as string,
@@ -26,6 +27,7 @@ export const useAuthStore = defineStore('authStore', {
 
         const token = useCookie('accessToken');
         token.value = accessToken;
+        localStorage.setItem('accessToken', accessToken);
         router.push('/homepage');
         this.name = response.data.user;
 
@@ -44,9 +46,7 @@ export const useAuthStore = defineStore('authStore', {
     logout(){
       const token = useCookie('accessToken');
       token.value = null;
-    },
-    saveToLocalStorage: (token: string): void => {
-      localStorage.setItem('accessToken', token);
+      localStorage.removeItem('accessToken');
     },
     clearErrorMessage(){
       if(!this.errorTimeout){

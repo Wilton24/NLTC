@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useCookie } from '#app';
+
 
 const BACKEND_URL = process.env.VITE_API_URL || 'http://localhost:5000';
 
