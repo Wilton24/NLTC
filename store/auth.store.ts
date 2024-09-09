@@ -24,12 +24,12 @@ export const useAuthStore = defineStore('authStore', {
         if(!accessToken){
           return;
         };
-
+        
         const token = useCookie('accessToken');
         token.value = accessToken;
         localStorage.setItem('accessToken', accessToken);
         router.push('/homepage');
-        this.name = response.data.user;
+        this.name = response.data.name;
 
       } catch(error: unknown|any){
         if (error.response && error.response.status === 401) {

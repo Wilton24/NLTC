@@ -10,10 +10,11 @@ export const useHomepageStore = defineStore("homepageStore", {
   actions: {
     async getAdminProfile(){
       const token = useCookie("accessToken");
-      const url = `http://localhost:5000/admin/allAdmins`;
-      this.showUsers = true;
+      const url : string = `http://localhost:5000/admin/allAdmins`;
+      this.showUsers ? this.showUsers = false : this.showUsers = true;
+
       try{
-        const { data, pending, error } = await useFetch(url, {
+        const { data } = await useFetch(url, {
           headers: {
             Authorization: `Bearer ${token.value}`
           }
@@ -23,6 +24,9 @@ export const useHomepageStore = defineStore("homepageStore", {
         console.log(err);
       }
     },
+    getCurrentUser(){
+      
+    }
   },
   getters: {
 
