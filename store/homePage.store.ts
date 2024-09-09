@@ -20,12 +20,14 @@ export const useHomepageStore = defineStore("homepageStore", {
           }
         });
         this.users = data.value;
+        console.log(data.value);
+        
       } catch(err: Error | any){
         console.log(err);
       }
     },
     getCurrentUser(){
-      
+
     }
   },
   getters: {

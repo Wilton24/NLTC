@@ -10,6 +10,7 @@ import PlayerCard from '~/components/PlayerCard.vue';
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error molestiae, qui tempora dolores iste placeat?</p>
         <PlayerCard />
     </div>
+    <Footer />
 </template>
 
 <style>
