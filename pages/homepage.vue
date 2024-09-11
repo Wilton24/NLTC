@@ -4,6 +4,7 @@ import { useHomepageStore } from '~/store/homePage.store';
 import { useAuthStore } from '~/store/auth.store';
 import EditIcon from '~/assets/icons/EditIcon.vue';
 import TrashIcon from '~/assets/icons/TrashIcon.vue';
+import axios from 'axios';
 
 const homepageStore = useHomepageStore();
 const authStore = useAuthStore();
@@ -17,16 +18,24 @@ onMounted(async ()=>{
 });
 
 
-function uploadFile(){
+async function uploadFile(){
+    const formData = new FormData();
 
+    if(fileInput.value == null) return console.log('No file selected');    
+    formData.append('avatar', fileInput.value);
+    const data = await axios.post('http://localhost:5000/profile', formData, {
+        headers: {
+            authorization: `Bearer ${token.value}`,
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    console.log(formData);
 }
 
 function onFileSelect(event: any) {
-    console.log(`Function working`);
-    
-    console.log(event.target.files[0]);
-    
-}
+    fileInput.value = event.target.files[0];
+    console.log(fileInput.value);
+};
 
 
 </script>
@@ -66,7 +75,7 @@ function onFileSelect(event: any) {
         </div>
     </div>
 
-    <form @submit="uploadFile">
+    <form @submit.prevent="uploadFile">
         <div class="file-upload">
         <input type="file" name="avatar" ref="fileInput" @change="onFileSelect">
         <button type="submit" class="px-3 py-2 my-5 bg-green-400">Upload</button>
