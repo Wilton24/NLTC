@@ -2,10 +2,10 @@
 import axios from 'axios';
 
     onMounted(() => {
-        axios.get('http://localhost:5000').then((res) => {
-            console.log(res.data)
-        })
-    })
+        // axios.get('http://localhost:5000').then((res) => {
+        //     console.log(res.data)
+        // })
+    });
 </script>
 
 
@@ -19,8 +19,9 @@ import axios from 'axios';
               Excepturi ad consequatur dolores quaerat natus?</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate possimus dicta velit similique debitis assumenda
              incidunt. Suscipit, rem soluta! Fugiat?</p>
-
     </div>
+
+  
 </template>
 
 <style>
