@@ -1,26 +1,20 @@
 <script setup lang="ts">
 import AvatarIcon from '~/assets/icons/AvatarIcon.vue';
 
-// const fileInput =  ref<File | null>(null);
 const isToggleActive = ref(false as boolean);
 
-// watch(fileInput, (newValue, oldValue) => {
-//   if (newValue !== oldValue) {
-//     // The value of fileInput has changed
-//     console.log('New value:', newValue);
-//   }
-// });
+const image = ref(null as any);
 
 
 function onFileSelect(event: Event | any) {
-	// fileInput.value = event.target.files[0];
-	const file = event.target.files[0];
-	 if(file){
+	 state.profile_pic = event.target.files[0];
+	 if(state.profile_pic){
 		const reader = new FileReader();
 		reader.onload =(e: Event | any) => {
-			state.profile_pic = e.target?.result;
+			state.profile_pic = e.target?.result;				
+			console.log(e.target);
 		};
-		reader.readAsDataURL(file);
+		reader.readAsDataURL(state.profile_pic);
 	 }
 };
 
@@ -32,8 +26,11 @@ async function handleSubmit(){
 		contact_number: state.contact_number,
 		email: state.email,
 		password: state.password,
+		profile_pic: state.profile_pic,
 	}
 	// console.log(`Form Data: ${JSON.stringify(formData)}`);
+	console.log(formData);
+	
 }
 
 const state = reactive({
@@ -43,7 +40,8 @@ const state = reactive({
 	contact_number: '' as string,
 	email: '' as string,
 	password: '' as string,
-	profile_pic: '' as string | null | any
+	profile_pic: '' as string | null | any,
+	profile_pic_url: '' as string
 });
 
 function toggleActive(){
@@ -52,9 +50,8 @@ function toggleActive(){
 };
 
 function dropFile(e: Event | any){
-	// fileInput.value = e.dataTransfer.files[0];
-	// console.log(`After drop ${fileInput.value}`);
 	state.profile_pic = e.dataTransfer.files[0];
+	console.log(state.profile_pic);
 };
 
 
@@ -77,7 +74,7 @@ function dropFile(e: Event | any){
 									@drop.prevent="toggleActive"									
 									class="border-dotted border-2 border-[#41b883] inline-block px-6 py-2 bg-slate-100 cursor-pointer">
 									<div v-if="state.profile_pic" class="w-[150px] h-[150px]">
-										<img :src="state.profile_pic" alt="Profile Avatar">
+										<img :src="state.profile_pic" alt="Profile Avatar" class="w-full h-full object-cover">
 									</div>
 									<AvatarIcon v-else @drop.prevent="dropFile"/>
                 </label>
