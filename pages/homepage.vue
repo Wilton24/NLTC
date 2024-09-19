@@ -77,7 +77,11 @@ function onFileSelect(event: any) {
 
     <form @submit.prevent="uploadFile">
         <div class="file-upload">
-        <input type="file" name="avatar" ref="fileInput" @change="onFileSelect">
+            <label for="profile_pic" >
+                <div class="avatar-container border-dotted border-2 border-[#41b883] inline-block px-6 py-2 bg-slate-100 cursor-pointer
+                w-[150px] h-[150px] ms-10"></div>
+            </label>
+        <input type="file" name="avatar" ref="fileInput" @change="onFileSelect" class="hidden" id="profile_pic">
         <button type="submit" class="px-3 py-2 my-5 bg-green-400">Upload</button>
     </div>
     </form>

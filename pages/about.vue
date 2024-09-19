@@ -2,6 +2,7 @@
 import AvatarIcon from '~/assets/icons/AvatarIcon.vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 const isToggleActive = ref(false as boolean);
 
@@ -27,25 +28,39 @@ function onFileSelect(event: Event | any) {
 		reader.readAsDataURL(state.profile_pic);
 	 };
 
-	 console.log(`Profile Pic value: ${state.profile_pic}`);
+	//  console.log(`Profile Pic value: ${state.profile_pic}`);
+	console.log(state.profile_pic);
+	
 	 
 };
 
 async function handleSubmit(values: IUserFormValues | any) {
-	// const formData = {
-	// 	name: state.name,
-	// 	age: state.age,
-	// 	sex: state.sex,
-	// 	contact_number: state.contact_number,
-	// 	email: state.email,
-	// 	password: state.password,
-	// 	profile_pic: state.profile_pic,
 
-	// };
-	console.log(`Values: ${values}`);
+	const url : string = `http://localhost:5000/player/players`;
+	const token = useCookie("accessToken");
+
+	const fd = new FormData();
+	fd.append('name', 'sample name');
+	fd.append('age', '15');
+	fd.append('sex', state.sex);
+	fd.append('contact_number', state.contact_number);
+	fd.append('email', state.email);
+	fd.append('password', state.password);
+	// fd.append('profile_pic', state.profile_pic);
 	
-	
-}
+	try{
+		const response = await axios.post(url, fd, {
+		headers: {
+			'Content-Type': 'multipart/form-data',
+			Authorization: `Bearer ${token.value}`
+		}
+	});
+		console.log(response.data);
+	} catch(err: Error | any){
+		console.log(err);
+	};
+
+};
 
 const state = reactive({
 	name: '' as string,
@@ -67,9 +82,9 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email format').required('Email is required'),
   password: Yup.string().required('Password is required'),
   confirm_password: Yup.string().required('Confirm password is required').oneOf([Yup.ref('password'), 'Passwords must match'], 'Passwords must match'),
-	profile_pic: Yup.mixed().required('Profile picture is required').test('file', 'Please upload an image file', (value) => {
-  return value instanceof File && value.type.startsWith('image/');
-}),
+// 	profile_pic: Yup.mixed().required('Profile picture is required').test('file', 'Please upload an image file', (value) => {
+//   return value instanceof File && value.type.startsWith('image/');
+// }),
 
 });
 
@@ -131,22 +146,23 @@ function dropFile(e: Event | any){
             <div class="container-right ml-16 flex-col items-start w-[80%] border-slate-800">
 
 							<Field type="text" name="name" v-model="state.name" placeholder="Enter your name" class="border rounded px-3 py-2 mt-3 min-w-[250px] max-w-500px" />
-							<ErrorMessage name ="name" class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"/>
+							<p class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"><ErrorMessage name="name" /></p>
 
 							<Field type="text" name="age" v-model="state.age" placeholder="Enter your age" class="border rounded px-3 py-2 mt-3 min-w-[250px] max-w-500px" />
-							<ErrorMessage name ="age" class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"/>
+							<p class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"><ErrorMessage name="age" /></p>
+							
 
 							<Field type="text" name="contact_number" v-model="state.contact_number" placeholder="Enter your contact number" class="border rounded px-3 py-2 mt-3 min-w-[250px] max-w-500px" />
-							<ErrorMessage name ="contact_number" class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"/>
+							<p class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"><ErrorMessage name="contact_number" /></p>
 
 							<Field type="text" name="email" v-model="state.email" placeholder="Enter your email address" class="border rounded px-3 py-2 mt-3 min-w-[250px] max-w-500px" />
-							<ErrorMessage name ="email" class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"/>
+							<p class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"><ErrorMessage name="email" /></p>
 
 							<Field type="password" name="password" v-model="state.password" placeholder="Enter your password" class="border rounded px-3 py-2 mt-3 min-w-[250px] max-w-500px" />
-							<ErrorMessage name ="password" class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"/>
+							<p class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"><ErrorMessage name="password" /></p>
 
 							<Field type="password" name="confirm_password" v-model="state.confirm_password" placeholder="Confirm your password" class="border rounded px-3 py-2 mb-3 mt-3 min-w-[250px] max-w-500px" />
-							<ErrorMessage name ="confirm_password" class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"/>
+							<p class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"><ErrorMessage name="confirm_password" /></p>
 
 							<div class="flex gap-2 items-center">
 								<Field type="radio" v-model="state.sex" name="sex" id="male" value="male" />
@@ -155,7 +171,7 @@ function dropFile(e: Event | any){
 								<Field type="radio" v-model="state.sex" name="sex" id="female" value="female" />
 								<label for="female">Female</label>								
 							</div>
-							<ErrorMessage name ="sex" class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"/>
+							<p class="text-red-500 min-w-[250px] max-w-500px mt-[1px] ms-2"><ErrorMessage name="sex" /></p>
 							<button type="submit" class="px-3 py-2 my-5 bg-green-400 rounded-lg">Upload</button>
 						</div>
 
